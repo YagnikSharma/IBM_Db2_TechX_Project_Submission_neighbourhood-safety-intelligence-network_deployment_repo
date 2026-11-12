@@ -1,11 +1,25 @@
+const TREE = 'https://github.com/YagnikSharma/IBM_Db2_TechX_Project_Submission/tree/submission/neighbourhood-safety-intelligence-network/submissions/neighbourhood-safety-intelligence-network';
+const BLOB = TREE.replace('/tree/', '/blob/');
 export const LINKS = {
-  repo: "https://github.com/YagnikSharma/IBM_Db2_TechX_Project_Submission/tree/submission/neighbourhood-safety-intelligence-network/submissions/neighbourhood-safety-intelligence-network",
-  apk: "/downloads/nsin-android.apk",
-  hackathon: "https://ibmdb2techxsummit.glbajajgroup.ac.in/",
+  repo: TREE,
+  site: 'https://github.com/YagnikSharma/IBM_Db2_TechX_Project_Submission_neighbourhood-safety-intelligence-network_deployment_repo',
+  apk: '/downloads/nsin-android.apk',
+  hackathon: 'https://ibmdb2techxsummit.glbajajgroup.ac.in/',
+  app: '/app/',
 };
+// Film links: set when the new demo films are published.
+export const FILMS = { landscape: '', reel: '' };
+export const DOCS = [
+  { title: 'Architecture', text: 'Components, data flow, Db2 schema and deployment, with diagrams.', href: BLOB + '/architecture.md' },
+  { title: 'Db2 deep dive', text: 'VECTOR columns, VECTOR_DISTANCE, SQL analytics, JSON filters and least privilege.', href: BLOB + '/docs/DB2_DEEP_DIVE.md' },
+  { title: 'AI design', text: 'Granite agents, CrewAI flow, Haystack hybrid search and LangChain DB2VS.', href: BLOB + '/docs/AI_DESIGN.md' },
+  { title: 'Security', text: 'Threat model, auth, PII handling, Bandit and pip-audit results.', href: BLOB + '/docs/SECURITY.md' },
+  { title: 'Innovation', text: 'What is new here, and why it matters for neighbourhoods.', href: BLOB + '/docs/INNOVATION.md' },
+  { title: 'Testing', text: '78 integration tests against a real Db2 and real models. No mocks.', href: BLOB + '/docs/TESTING.md' },
+];
 
 export const STATS = [
-  { value: 77, suffix: "", label: "integration tests passing on IBM Db2" },
+  { value: 78, suffix: "", label: "integration tests passing on IBM Db2" },
   { value: 96, suffix: "%", label: "backend line coverage, no mocks" },
   { value: 3, suffix: "", label: "IBM Db2 AI packages in production code" },
   { value: 0, suffix: "", label: "cloud AI calls: Granite runs locally" },

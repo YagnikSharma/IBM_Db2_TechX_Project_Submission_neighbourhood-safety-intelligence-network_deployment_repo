@@ -1,85 +1,110 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Bell, ClipboardList, ShieldCheck, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Expand, ExternalLink, Monitor, RotateCcw, Smartphone, X } from "lucide-react";
+import type { LiveState } from "./live";
 
-export const SCREENS = [
-  { id: "home", label: "Home", icon: ShieldCheck, src: "/screens/resident.png", caption: "Resident home: one-tap SOS, your reports, your emergency circle." },
-  { id: "report", label: "Report", icon: ClipboardList, src: "/screens/report.png", caption: "Free-text report → AI triage with a priority and a cited protocol." },
-  { id: "responder", label: "Respond", icon: Bell, src: "/screens/responder.png", caption: "Responder queue, P1 first. Claim, en route, on scene, resolved." },
-  { id: "community", label: "Insights", icon: Users, src: "/screens/community.png", caption: "Response times and hotspots, computed inside IBM Db2." },
-];
+const APP = "/app/";
 
-function Clock() {
-  const [now, setNow] = useState(() => new Date());
+/** Scales a fixed-size iframe to fit its container, so the real app renders at true phone/desktop width. */
+function Scaled({ w, h, src, title, frameKey }: { w: number; h: number; src: string; title: string; frameKey: number }) {
+  const box = useRef<HTMLDivElement>(null);
+  const [s, setS] = useState(1);
   useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 15000);
-    return () => clearInterval(t);
-  }, []);
-  return <>{now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })}</>;
+    const el = box.current!;
+    const ro = new ResizeObserver(() => setS(Math.min(1, el.clientWidth / w)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [w]);
+  return (
+    <div ref={box} className="relative w-full overflow-hidden" style={{ height: h * s }}>
+      <iframe key={frameKey} src={src} title={title} loading="lazy"
+        className="absolute left-0 top-0 origin-top-left border-0 bg-white"
+        style={{ width: w, height: h, transform: `scale(${s})` }} />
+    </div>
+  );
 }
 
-/** A realistic phone: real app screenshots scroll inside the screen, swipe or tap the tab bar to switch. */
-export function PhoneDemo({ initial = 0, compact = false }: { initial?: number; compact?: boolean }) {
-  const [index, setIndex] = useState(initial);
-  const screen = SCREENS[index];
-  const go = (dir: number) => setIndex((i) => (i + dir + SCREENS.length) % SCREENS.length);
-
+/** The real NSIN web app, running inside a phone. */
+export function Phone({ frameKey = 0, path = "auth" }: { frameKey?: number; path?: string }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className={`relative ${compact ? "w-[260px]" : "w-[300px] sm:w-[320px]"} aspect-[9/19.5]`}>
-        {/* side buttons */}
-        <span className="absolute -left-[3px] top-[18%] h-10 w-[3px] rounded-l bg-[#2a2f3a]" />
-        <span className="absolute -left-[3px] top-[28%] h-16 w-[3px] rounded-l bg-[#2a2f3a]" />
-        <span className="absolute -right-[3px] top-[24%] h-20 w-[3px] rounded-r bg-[#2a2f3a]" />
-        {/* frame */}
-        <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-b from-[#3a4150] via-[#1d222c] to-[#3a4150] p-[3px] shadow-[0_40px_120px_-20px_#2dd4bf40]">
-          <div className="relative h-full w-full overflow-hidden rounded-[2.85rem] bg-black p-[10px]">
-            <div className="relative h-full w-full overflow-hidden rounded-[2.2rem] bg-white">
-              {/* status bar */}
-              <div className="absolute inset-x-0 top-0 z-20 flex h-11 items-center justify-between bg-[#0f172a] px-6 text-[12px] font-semibold text-white">
-                <Clock />
-                <span className="flex items-center gap-1 text-[10px]">
-                  <span className="tracking-tighter">●●●●</span> 5G <span className="ml-1 inline-block h-[10px] w-5 rounded-[3px] border border-white/80 p-[1px]"><span className="block h-full w-3/4 rounded-[1px] bg-white" /></span>
-                </span>
-              </div>
-              <div className="absolute left-1/2 top-2.5 z-30 h-[26px] w-[92px] -translate-x-1/2 rounded-full bg-black" />
-              {/* screen content: swipe between screens, scroll within a screen */}
-              <AnimatePresence initial={false} mode="popLayout">
-                <motion.div
-                  key={screen.id}
-                  className="absolute inset-0 overflow-y-auto pt-11 pb-14 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                  initial={{ x: "100%", opacity: 0.6 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: "-35%", opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 30 }}
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.25}
-                  onDragEnd={(_, info) => { if (info.offset.x < -60) go(1); else if (info.offset.x > 60) go(-1); }}
-                >
-                  <img src={screen.src} alt={screen.caption} draggable={false} className="w-full select-none" loading="lazy" />
-                </motion.div>
-              </AnimatePresence>
-              {/* tab bar */}
-              <nav className="absolute inset-x-0 bottom-0 z-20 grid h-14 grid-cols-4 border-t border-slate-200 bg-white/95 backdrop-blur">
-                {SCREENS.map((s, i) => {
-                  const Icon = s.icon;
-                  const active = i === index;
-                  return (
-                    <button key={s.id} onClick={() => setIndex(i)} aria-label={s.label}
-                      className={`flex flex-col items-center justify-center gap-0.5 text-[10px] font-semibold ${active ? "text-teal-600" : "text-slate-400"}`}>
-                      <Icon className="h-[18px] w-[18px]" />
-                      {s.label}
-                    </button>
-                  );
-                })}
-              </nav>
-              <div className="absolute bottom-1.5 left-1/2 z-30 h-1 w-28 -translate-x-1/2 rounded-full bg-slate-900/80" />
-            </div>
-          </div>
+    <div className="relative mx-auto w-full max-w-[330px] rounded-[3rem] border border-line bg-[#0b0f1a] p-3 shadow-[0_40px_80px_-30px_rgba(14,21,37,.45)]">
+      <div className="overflow-hidden rounded-[2.3rem] bg-[#0f172a]">
+        <div className="relative flex h-8 items-center justify-between px-6 text-[11px] font-semibold text-white">
+          <span>9:41</span>
+          <span className="absolute left-1/2 top-1.5 h-5 w-20 -translate-x-1/2 rounded-full bg-black" />
+          <span className="flex items-center gap-1"><span className="h-2 w-3 rounded-[2px] border border-white/80" />5G</span>
+        </div>
+        <Scaled w={390} h={844} src={APP + path} title="NSIN web app on a phone" frameKey={frameKey} />
+      </div>
+    </div>
+  );
+}
+
+function Browser({ frameKey }: { frameKey: number }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+      <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-4 py-2.5">
+        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" /><span className="h-3 w-3 rounded-full bg-[#febc2e]" /><span className="h-3 w-3 rounded-full bg-[#28c840]" />
+        <span className="mx-auto truncate rounded-md bg-surface px-3 py-1 font-mono text-[11px] text-ink-3">{location.host}/app/</span>
+      </div>
+      <Scaled w={1280} h={800} src={APP + "auth"} title="NSIN web app on desktop" frameKey={frameKey} />
+    </div>
+  );
+}
+
+export function ProductDemo({ live }: { live: LiveState }) {
+  const [mode, setMode] = useState<"phone" | "desktop">("phone");
+  const [k, setK] = useState(0);
+  const [full, setFull] = useState(false);
+  const tab = (m: typeof mode, icon: React.ReactNode, label: string) => (
+    <button onClick={() => setMode(m)}
+      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${mode === m ? "bg-ink text-bg" : "text-ink-2 hover:text-ink"}`}>
+      {icon}{label}
+    </button>
+  );
+  return (
+    <div>
+      <div className="mb-6 flex flex-wrap items-center gap-3">
+        <div className="inline-flex rounded-full border border-line bg-surface p-1">
+          {tab("phone", <Smartphone className="h-4 w-4" />, "Phone")}
+          {tab("desktop", <Monitor className="h-4 w-4" />, "Desktop")}
+        </div>
+        <button onClick={() => setFull(true)} className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-ink-2 hover:text-ink"><Expand className="h-4 w-4" />Immersive</button>
+        <a href={APP} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-ink-2 hover:text-ink"><ExternalLink className="h-4 w-4" />New tab</a>
+        <button onClick={() => setK((x) => x + 1)} className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-ink-3 hover:text-ink"><RotateCcw className="h-4 w-4" />Reset</button>
+      </div>
+      {live.status !== "live" && (
+        <p className="mb-6 rounded-2xl border border-dawn/40 bg-dawn/10 px-4 py-3 text-sm text-ink-2">
+          {live.status === "checking" ? "Connecting to the live backend…" :
+            "The live backend (Db2 + Granite on our machine) is offline right now. The app still opens, but sign-in needs the backend. The recorded real responses below show what it returns."}
+        </p>
+      )}
+      <div className="grid items-start gap-10 lg:grid-cols-[1fr_300px]">
+        <div className={mode === "phone" ? "mx-auto w-full max-w-[360px] lg:col-span-2" : "lg:col-span-2"}>
+          {mode === "phone" ? <Phone frameKey={k} /> : <Browser frameKey={k} />}
         </div>
       </div>
-      {!compact && <p className="mt-6 max-w-xs text-center text-sm text-ink-2">{screen.caption} <span className="text-ink-3">Swipe or tap the tabs.</span></p>}
+      <div className="mt-8 grid gap-3 sm:grid-cols-3">
+        {[
+          ["Resident", "resident@neighbourhood.org", "Raise an SOS, report an incident, track a child's commute."],
+          ["Responder", "responder@neighbourhood.org", "Claim incidents, read the Granite briefing, resolve."],
+          ["Admin", "admin@neighbourhood.org", "Db2 SQL analytics: medians, P90, hotspots."],
+        ].map(([r, e, t]) => (
+          <div key={r} className="rounded-2xl border border-line bg-surface p-4">
+            <p className="text-sm font-semibold">{r}</p>
+            <p className="mt-1 font-mono text-[11px] text-ink-3">{e} · Password123!</p>
+            <p className="mt-2 text-sm text-ink-2">{t}</p>
+          </div>
+        ))}
+      </div>
+      {full && (
+        <div className="fixed inset-0 z-[100] flex flex-col bg-bg">
+          <div className="flex items-center justify-between border-b border-line px-4 py-2">
+            <span className="font-mono text-xs text-ink-3">NSIN · live web app · real Db2 backend</span>
+            <button onClick={() => setFull(false)} aria-label="Close" className="grid h-9 w-9 place-items-center rounded-full border border-line"><X className="h-4 w-4" /></button>
+          </div>
+          <iframe src={APP + "auth"} title="NSIN web app, full screen" className="h-full w-full flex-1 border-0 bg-white" />
+        </div>
+      )}
     </div>
   );
 }

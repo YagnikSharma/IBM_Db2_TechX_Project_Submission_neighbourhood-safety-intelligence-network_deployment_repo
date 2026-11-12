@@ -1,1 +1,296 @@
-{ "recorded_at": "pending", "db2": "pending", "models": "pending", "results": { "crew": {}, "guidance": {}, "insights": {}, "health": {} } }
+{
+  "recorded_at": "2026-11-12 11:42 IST",
+  "db2": "DB2/LINUXX8664 12.01.0500",
+  "models": "granite3.3:2b + granite-embedding:278m (Ollama)",
+  "crew_seconds": 32,
+  "results": {
+    "crew": {
+      "triage": {
+        "parsed_category": "elder_welfare",
+        "extracted_location": null,
+        "missing_critical_info": [
+          "Specific street, landmark, or apartment number",
+          "Whether the person is currently alone or accompanied"
+        ],
+        "suggested_priority": "P2_HIGH",
+        "triage_reasoning": "Significant vulnerability identified (Elder Welfare). Requires rapid volunteer / patrol dispatch within 15 minutes.",
+        "immediate_safety_checklist": [
+          "Verify coordinates with trusted emergency contacts.",
+          "Dispatch the nearest verified responder for an in-person check.",
+          "Keep the child's or elder's phone line reachable."
+        ],
+        "retrieved_civic_protocols": [
+          {
+            "title": "Senior Citizen Wellness Checks and Assistance Procedures",
+            "source": "Civic Elder Care & Ageing-in-Place Guidelines",
+            "protocol_snippet": "Senior Citizen Wellness Checks and Assistance Procedures. Elder welfare monitoring operates through morning and evening check-in windows. 1) Residents or their designated caregivers set preferred check-in hours. 2) If a check-in is missed, the system flags a 'missed_checkin' status and prompts trusted family contacts. 3) If no contact is established within 60 minutes, a certified community volunteer or medical responder ",
+            "matched_by": "bm25+vector"
+          },
+          {
+            "title": "Child Journey Monitoring and Delay Escalation Guidelines",
+            "source": "Guardian Network Child Protection Framework, Section 4",
+            "protocol_snippet": "child profile. 3) At +15 minutes overdue without communication, the status transitions to 'delayed' and guardians receive an urgent notification. 4) At +30 minutes overdue or if the route deviates significantly, a P2_HIGH Child Welfare Alert is registered, notifying neighbourhood patrol units along the registered route corridor. Responders must verify last-known waypoint camera or witness records.",
+            "matched_by": "bm25"
+          },
+          {
+            "title": "Safe Transit and Women's Night Corridor Policy",
+            "source": "Metropolitan Women's Safety Initiative Protocol #11",
+            "protocol_snippet": "Safe Transit and Women's Night Corridor Policy. Women residents traveling during late hours (10:00 PM to 6:00 AM) can activate 'Safe Transit Companion' mode. This shares temporary live breadcrumbs exclusively with chosen trusted contacts and nearby active community patrols. If the user remains stationary in an unlit zone for over 5 minutes, an unobtrusive safety prompt is sent. If unanswered ",
+            "matched_by": "bm25"
+          }
+        ],
+        "escalated": false,
+        "workflow_steps": [
+          "intake:elder_welfare",
+          "triage:P2_HIGH",
+          "knowledge:3"
+        ],
+        "execution_duration_sec": 1.976,
+        "advisory_notice": "AI-assisted guidance is strictly advisory. Final decisions remain with verified human responders."
+      },
+      "briefing": {
+        "summary": "Two sentences:\n\n\"Your elderly neighbour hasn't responded to her door or phone since last night.\"\n\n\"This matters because she is an elderly individual, posing a significant risk of potential distress or danger, requiring a rapid volunteer response to ensure her safety and well-being.\"",
+        "advice": "1. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - Initiate a morning and evening check-in for the elderly neighbour, ensuring her preferred check-in hours are respected. If no contact is established within 60 minutes, flag a 'missed_checkin' status and prompt her designated caregivers or trusted family contacts.\n\n2. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - If the neighbour remains stationary in an unlit zone for over 5 minutes without response, send an unobtrusive safety prompt to verify her well-being.\n\n3. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - Engage a certified community volunteer or medical responder to conduct a welfare check on the elderly neighbour, ensuring her safety and well-being.\n\nEnd with 'Source:' and the protocol title you used.\n\nFinal Answer:\n1. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - Initiate a morning and evening check-in for the elderly neighbour, ensuring her preferred check-in hours are respected.\n\n2. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - If the neighbour remains stationary in an unlit zone for over 5 minutes without response, send an unobtrusive safety prompt to verify her well-being.\n\n3. Source: Senior Citizen Wellness Checks and Assistance Procedures (Civic Elder Care & Ageing-in-Place Guidelines) - Engage a certified community volunteer or medical responder to conduct a welfare check on the elderly neighbour, ensuring her safety and well-being.",
+        "grounded": true,
+        "cited_protocols": [
+          "Senior Citizen Wellness Checks and Assistance Procedures",
+          "Child Journey Monitoring and Delay Escalation Guidelines",
+          "Safe Transit and Women's Night Corridor Policy"
+        ],
+        "model": "granite3.3:2b",
+        "agents": [
+          "Triage Analyst",
+          "Protocol Advisor"
+        ],
+        "duration_sec": 30.43
+      },
+      "briefing_error": null
+    },
+    "guidance": {
+      "results": [
+        {
+          "document_id": "DOC-WOMEN-005",
+          "title": "Safe Transit and Women's Night Corridor Policy",
+          "category": "transit_safety",
+          "audience": [
+            "women",
+            "residents"
+          ],
+          "excerpt": "Women residents traveling during late hours (10:00 PM to 6:00 AM) can activate 'Safe Transit Companion' mode. This shares temporary live breadcrumbs exclusively with chosen trusted contacts and nearby active community patrols. If the user remains stationary in an unlit zone for over 5 minutes, an unobtrusive safety prompt is sent. If unanswered within 90 seconds, nearby patrollers are notified to conduct a non-intrusive safety drive-by.",
+          "cited_passage": "Safe Transit and Women's Night Corridor Policy. Women residents traveling during late hours (10:00 PM to 6:00 AM) can activate 'Safe Transit Companion' mode. This shares temporary live breadcrumbs exclusively with chosen trusted contacts and nearby active community patrols. If the user remains stationary in an unlit zone for over 5 minutes, an unobtrusive safety prompt is sent. If unanswered ",
+          "source": "Metropolitan Women's Safety Initiative Protocol #11",
+          "updated_at": "2026-08-12",
+          "relevance_score": 1,
+          "matched_by": "bm25+vector",
+          "vector_distance": 0.4303
+        }
+      ],
+      "found": true,
+      "count": 1,
+      "retrieval_mode": "hybrid (Haystack BM25 + IBM Db2 vector)",
+      "filters": {
+        "field": "meta.audience",
+        "operator": "==",
+        "value": "women"
+      },
+      "top_source": "Metropolitan Women's Safety Initiative Protocol #11",
+      "query": "someone is following me home at night"
+    },
+    "insights": {
+      "total_incidents": 46,
+      "active_incidents": 33,
+      "resolved_incidents": 13,
+      "average_response_time_minutes": 12.74,
+      "incidents_by_type": {
+        "child_alert": 1,
+        "elder_welfare": 2,
+        "hazard": 28,
+        "medical": 7,
+        "sos": 3,
+        "suspicious_activity": 5
+      },
+      "incidents_by_priority": {
+        "P1_CRITICAL": 6,
+        "P2_HIGH": 9,
+        "P3_MODERATE": 27,
+        "P4_ADVISORY": 4
+      },
+      "active_hazards": [
+        {
+          "id": 3,
+          "reported_by_id": 1,
+          "title": "Fallen wire near gate",
+          "hazard_type": "electrical",
+          "severity": "high",
+          "address": "Gate 3",
+          "latitude": null,
+          "longitude": null,
+          "status": "active",
+          "created_at": "2026-11-12T02:27:27.984215"
+        },
+        {
+          "id": 2,
+          "reported_by_id": 2,
+          "title": "Open Construction Pit Without Barricade",
+          "hazard_type": "road_block",
+          "severity": "high",
+          "address": "Corner of 7th Cross and Outer Ring Feeder",
+          "latitude": 12.9705,
+          "longitude": 77.592,
+          "status": "active",
+          "created_at": "2026-11-12T02:25:35.920829"
+        },
+        {
+          "id": 1,
+          "reported_by_id": 1,
+          "title": "Malfunctioning Streetlight Near Park Alley",
+          "hazard_type": "dark_street",
+          "severity": "medium",
+          "address": "Lane 3, Behind Central Community Park",
+          "latitude": 12.973,
+          "longitude": 77.596,
+          "status": "verified",
+          "created_at": "2026-11-12T02:25:35.913310"
+        }
+      ],
+      "safety_health_score": 0,
+      "ai_safety_advisory": "Elevated community vigilance recommended. 33 active incidents and 3 civic hazards are currently being monitored. Evening patrols have been intensified along primary corridors.",
+      "analytics_engine": "IBM Db2 SQL (MEDIAN, PERCENTILE_CONT, RANK OVER)",
+      "window_days": 30,
+      "response_times": [
+        {
+          "priority": "P1_CRITICAL",
+          "incidents": 6,
+          "acknowledged": 2,
+          "avg_ack_minutes": 1.75,
+          "median_ack_minutes": 1.75,
+          "p90_ack_minutes": 1.95,
+          "avg_resolve_minutes": 65,
+          "ack_target_minutes": 2
+        },
+        {
+          "priority": "P2_HIGH",
+          "incidents": 9,
+          "acknowledged": 8,
+          "avg_ack_minutes": 6.38,
+          "median_ack_minutes": 6.5,
+          "p90_ack_minutes": 9.9,
+          "avg_resolve_minutes": 639,
+          "ack_target_minutes": 15
+        },
+        {
+          "priority": "P3_MODERATE",
+          "incidents": 27,
+          "acknowledged": 8,
+          "avg_ack_minutes": 24.13,
+          "median_ack_minutes": 25,
+          "p90_ack_minutes": 43,
+          "avg_resolve_minutes": 646.67,
+          "ack_target_minutes": 60
+        },
+        {
+          "priority": "P4_ADVISORY",
+          "incidents": 4,
+          "acknowledged": 3,
+          "avg_ack_minutes": 6.67,
+          "median_ack_minutes": 7,
+          "p90_ack_minutes": 10.2,
+          "avg_resolve_minutes": null,
+          "ack_target_minutes": 1440
+        }
+      ],
+      "hotspots": [
+        {
+          "rank": 1,
+          "location": "Underpass 2dd798",
+          "incidents": 5,
+          "open_incidents": 5,
+          "last_reported": "2026-11-12T02:29:00.869422"
+        },
+        {
+          "rank": 2,
+          "location": "Parity Lane",
+          "incidents": 4,
+          "open_incidents": 4,
+          "last_reported": "2026-11-12T02:09:17.348783"
+        },
+        {
+          "rank": 2,
+          "location": "Oak Ridge Apartments, Basement 2, Green Glen Layout",
+          "incidents": 4,
+          "open_incidents": 2,
+          "last_reported": "2026-11-12T02:00:35.867793"
+        },
+        {
+          "rank": 4,
+          "location": "Lane 3, Behind Central Community Park",
+          "incidents": 3,
+          "open_incidents": 0,
+          "last_reported": "2026-10-19T23:15:00"
+        },
+        {
+          "rank": 5,
+          "location": "Lane 7aa11, Green Glen",
+          "incidents": 2,
+          "open_incidents": 2,
+          "last_reported": "2026-11-12T02:29:37.737730"
+        }
+      ],
+      "incidents_by_hour": {
+        "0": 1,
+        "1": 4,
+        "2": 28,
+        "7": 1,
+        "8": 1,
+        "9": 1,
+        "13": 1,
+        "18": 1,
+        "19": 1,
+        "20": 1,
+        "21": 1,
+        "22": 3,
+        "23": 2
+      },
+      "sla_breaches": 24
+    },
+    "health": {
+      "status": "healthy",
+      "service": "Neighbourhood Safety Intelligence Network",
+      "version": "1.0.0",
+      "environment": "development",
+      "database": {
+        "mode": "db2",
+        "connected": true,
+        "driver": "ibm_db",
+        "details": {
+          "connected": true,
+          "database": "TESTDB",
+          "host": "localhost",
+          "port": 50000,
+          "server_time": "2026-11-12 06:12:22.261452",
+          "server_version": "DB2/LINUXX8664 12.01.0500",
+          "current_schema": "DB2INST1",
+          "status": "Verified connection to IBM Db2"
+        },
+        "vector_search": {
+          "enabled": true,
+          "library": "langchain-db2 (DB2VS)",
+          "model": "granite-embedding:278m",
+          "dimensions": 768,
+          "reason": null
+        },
+        "hybrid_retrieval": {
+          "hybrid": true,
+          "passages": 24,
+          "db2_table": "NSIN_PROTOCOL_PASSAGES",
+          "reason": null
+        }
+      },
+      "ai_features": {
+        "haystack_retrieval": "hybrid (BM25 + IBM Db2 vector)",
+        "db2_vector_search": "active",
+        "triage_agents": "active"
+      }
+    }
+  }
+}

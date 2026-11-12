@@ -5,11 +5,42 @@
   "buildCommand": "cd site && npm run build",
   "outputDirectory": "site/dist",
   "headers": [
-    { "source": "/live.json", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
-    { "source": "/downloads/(.*)", "headers": [{ "key": "Content-Disposition", "value": "attachment" }] },
-    { "source": "/(.*)", "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-    ] }
+    {
+      "source": "/live.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/downloads/(.*)",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "attachment"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/app/:path*",
+      "destination": "/app/index.html"
+    }
   ]
 }

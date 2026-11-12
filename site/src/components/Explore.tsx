@@ -45,7 +45,7 @@ export function Explore({ live }: { live: LiveState }) {
       <div className="flex flex-col gap-2">
         {SCENARIOS.map((s) => (
           <button key={s.id} onClick={() => pick(s)}
-            className={`rounded-xl border px-4 py-3 text-left text-sm transition ${active.id === s.id ? "border-signal/60 bg-signal/10 text-ink" : "border-line bg-surface text-ink-2 hover:border-line hover:text-ink"}`}>
+            className={`rounded-xl border px-4 py-3 text-left text-sm transition ${active.id === s.id ? "border-brand/60 bg-brand-soft text-ink" : "border-line bg-surface text-ink-2 hover:border-line hover:text-ink"}`}>
             <span className="font-mono text-[11px] text-ink-3">{s.method}</span> {s.label}
           </button>
         ))}
@@ -56,11 +56,11 @@ export function Explore({ live }: { live: LiveState }) {
           <code className="truncate font-mono text-xs text-ink-2">{active.method} {active.path}</code>
           <div className="flex items-center gap-2">
             {source === "live"
-              ? <span className="inline-flex items-center gap-1.5 rounded-full bg-live/15 px-2.5 py-1 font-mono text-[11px] text-live"><Radio className="h-3 w-3" /> live response</span>
+              ? <span className="inline-flex items-center gap-1.5 rounded-full bg-haven/15 px-2.5 py-1 font-mono text-[11px] text-haven"><Radio className="h-3 w-3" /> live response</span>
               : <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 font-mono text-[11px] text-ink-2"><Archive className="h-3 w-3" /> recorded {recorded.recorded_at}</span>}
             <button onClick={runLive} disabled={live.status !== "live" || loading}
               title={live.status === "live" ? "Call the real backend now" : "The live backend is offline right now"}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-signal px-3 py-1.5 text-xs font-semibold text-bg disabled:cursor-not-allowed disabled:opacity-40">
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink disabled:cursor-not-allowed disabled:opacity-40">
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />} Run live
             </button>
           </div>
