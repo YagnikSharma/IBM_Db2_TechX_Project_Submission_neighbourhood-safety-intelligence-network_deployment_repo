@@ -10,11 +10,13 @@ export const LINKS = {
 // Film links: set when the new demo films are published.
 export const FILMS = { landscape: '', reel: '' };
 export const DOCS = [
+  { title: "Judge's guide", text: 'Evaluate NSIN in 5 minutes. Every judging criterion mapped to evidence.', href: BLOB + '/docs/JUDGES_GUIDE.md' },
   { title: 'Architecture', text: 'Components, data flow, Db2 schema and deployment, with diagrams.', href: BLOB + '/architecture.md' },
   { title: 'Db2 deep dive', text: 'VECTOR columns, VECTOR_DISTANCE, SQL analytics, JSON filters and least privilege.', href: BLOB + '/docs/DB2_DEEP_DIVE.md' },
   { title: 'AI design', text: 'Granite agents, CrewAI flow, Haystack hybrid search and LangChain DB2VS.', href: BLOB + '/docs/AI_DESIGN.md' },
   { title: 'Security', text: 'Threat model, auth, PII handling, Bandit and pip-audit results.', href: BLOB + '/docs/SECURITY.md' },
   { title: 'Innovation', text: 'What is new here, and why it matters for neighbourhoods.', href: BLOB + '/docs/INNOVATION.md' },
+  { title: 'Live demo', text: 'How this page runs the real app: Vercel, live.json and a secure tunnel.', href: BLOB + '/docs/LIVE_DEMO.md' },
   { title: 'Testing', text: '78 integration tests against a real Db2 and real models. No mocks.', href: BLOB + '/docs/TESTING.md' },
 ];
 
